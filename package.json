@@ -1,7 +1,7 @@
 {
   "name": "coffeemachine",
   "version": "1.0.0",
-  "description": "",
+  "description": "Coffee machine to dispense multiple beverages with multiple ingredients in given compositions",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -9,6 +9,14 @@
   },
   "author": "Anmol Varshney",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varshneyanmol/coffee-machine/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varshneyanmol/coffee-machine.git"
+  },
+  "homepage": "https://github.com/varshneyanmol/coffee-machine#readme",
   "dependencies": {
     "@jest/globals": "^27.0.6",
     "jest": "^27.0.6"
