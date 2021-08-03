@@ -1,15 +1,24 @@
 const BeverageFactory = require('../services/BeverageFactory.service');
-const {InsufficientMaterialError} = require('../core/errors/Errors');
+const CompositionService = require('../services/Composition.service');
+const {InsufficientMaterialError, BadRequestError} = require('../core/errors/Errors');
 
 class Outlet {
     #ingredientInventory;
+    #beverageCompositionValidator;
 
-    constructor(ingredientInventory) {
+    constructor(ingredientInventory, beverageCompositionValidator) {
         this.#ingredientInventory = ingredientInventory;
+        this.#beverageCompositionValidator  = beverageCompositionValidator;
     }
 
 
-    make(beverageName, composition) {
+    make(beverageName, compositionInput) {
+        const BeverageType = BeverageFactory.beverageNameToClassMap[beverageName];
+        let composition = CompositionService.createComposition(compositionInput);
+
+        if (!this.#beverageCompositionValidator.isCompositionValid(BeverageType, composition))
+            throw new BadRequestError('Invalid Composition requested');
+
         const beverage = BeverageFactory.createBeverage(beverageName, composition);
 
         composition = beverage.composition;

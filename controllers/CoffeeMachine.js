@@ -19,25 +19,15 @@ class CoffeeMachine {
         this.#ingredientInventory = new IngredientInventoryService(quantitiesAvailable);
         this.#beverageCompositionValidator = new BeverageCompositionValidator(beveragesAvailable);
 
-        this.#outlet = new Outlet(this.#ingredientInventory);
+        this.#outlet = new Outlet(this.#ingredientInventory, this.#beverageCompositionValidator);
     }
 
     processBeverage(beverageName, compositionInput) {
-        let msg;
         try {
-            const BeverageType = BeverageFactory.beverageNameToClassMap[beverageName];
-            const composition = CompositionService.createComposition(compositionInput);
-
-            if (!this.#beverageCompositionValidator.isCompositionValid(BeverageType, composition))
-                throw new BadRequestError('Invalid Composition requested');
-
-            msg = this.#outlet.make(beverageName, composition);
-
+            return this.#outlet.make(beverageName, compositionInput);
         } catch (err) {
-            msg = err.message;
+            return err.message;
         }
-
-        return msg;
     }
 }
 
