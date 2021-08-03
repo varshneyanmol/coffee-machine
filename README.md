@@ -52,15 +52,15 @@
 
 # Important Note
 
-- I have not created multiple outlets to make multiple beverages in parallel
+- ***I have not created multiple outlets to make multiple beverages in parallel***
     - For a coffee machine, we can create multiple objects of `Outlet`, defined by the value of `N` in the input.
     - We can rotate those outlets in round robin fashion to serve requests in parallel
-    - **Reason I skipped on creating multiple outlets is (i.e. consuming `N` value from input):
+    - ***Reason I skipped on creating multiple outlets is (i.e. consuming `N` value from input):***
         - Since Javascript has single run(main) thread. There are mainly two ways to achieve parallelism:
             - Running application in `cluster` mode and create multiple worker processes. Each `Outlet` will be a single worker process. And then redirect separate requests to separate outlets. 
             - Create an `Outlet` array in `CoffeeMachine` and keep serving multiple requests with `Promise.all()` with few checks and rotations. 
         - Locking Mechanism needs to be implemented in creating a beverage, especially when checking if ingredients are sufficient and actually fetching them by reducing their quantity in `IngredientInventory`. That operation needs to be atomic.
-        - We need to use redis or other memory store to keeps centralized locking among all the outlets.**
+        - We need to use redis or other memory store to keeps centralized locking among all the outlets.
 
 
 # Sample input
