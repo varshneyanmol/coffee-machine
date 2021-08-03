@@ -1,10 +1,6 @@
 const IngredientInventoryService = require('../services/IngredientInventory.service');
 const BeverageCompositionValidator = require('../services/BeverageCompositionValidator.service');
-const BeverageFactory = require('../services/BeverageFactory.service');
-const CompositionService = require('../services/Composition.service');
 const Outlet = require('./Outlet');
-
-const {BadRequestError} = require('../core/errors/Errors');
 
 class CoffeeMachine {
     #ingredientInventory;

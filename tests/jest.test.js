@@ -1,3 +1,6 @@
+/**
+ * NOTE: Code Architecture is explained in the README.md file
+ */
 const allTestCases = require("./testCases/index");
 const CoffeeMachine = require('../controllers/CoffeeMachine');
 const {test, expect} = require("@jest/globals");

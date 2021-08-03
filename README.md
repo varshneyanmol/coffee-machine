@@ -1,13 +1,28 @@
 # Coffee-Machine
 
-- 
+- Application to create a coffee-machine with features described below:
+    - It will be serving some beverages.
+    - Each beverage will be made using some ingredients.
+    - Assume time to prepare a beverage is the same for all cases.
+    - The quantity of ingredients used for each beverage can vary. Also, the same ingredient (ex: water) can be used for multiple beverages.
+    - Any beverage can be served only if all the ingredients are available in terms of quantity.
+    - There would be an indicator that would show which all ingredients are running low. We need some methods to refill them.
+      
+ 
+# How to execute?
+ 
+ - Open up a terminal:
+ - Install dependencies: `npm install`
+ - To run test cases : `npm test`
+ - To try out with example input : `npm start`
 
+      
 # Code Architecture
 
 - `Ingredient` is the base model which is subclassed by other ingredients like `Water`, `Milk`, `GingerSyrup` etc.
     - Any required property can be added to the base model or to any of its subclass, depending on the requirement, like, adding `temperature` property to `Water` etc.
     - These classes can further be subclassed to give better flexibility like keeping `HotMilk` and `ColdMilk` as separate ingredients by subclassing Milk.
-    - **Every type of ingredient has its own `THRESHOLD_ALERT_QUANTITY` variable which implies that if the quantity of this beverage even falls below this threshold then sendAlter to the admin.**
+    - **Every type of ingredient has its own `THRESHOLD_ALERT_QUANTITY` variable which implies that if the quantity of this beverage falls below this threshold then sendAlert to the admin.**
 - `Beverage` is the base model which is subclassed by other beverages like `HotTea`, `GreenTea`, `HotCoffee` etc.
     - Along with `name`, each beverage has a `composition` which is describe below
 - `BeverageComposition` is the map of `ingredient` to its `quantity` needed, that the beverage demands. So, we can have two hot_coffees with same ingredients but different compositions of those ingredients.
@@ -29,21 +44,26 @@
     - Then fetches the ingredients from the `IngredientInventory`
     - returns the created `beverage`
     - throws the corresponding error if something goes unexpected in any of the steps
-- `CoffeMaker` is the main class that interacts with the outer world. It performs following:
+- `CoffeMachine` is the main class that interacts with the outer world. It performs following:
     - Initialized `IngredientInventory` and `BeverageCompositionValidator`
     - Creates its `outlet` to make beverages
     - takes request from the outer world to create a beverage with the given composition and delegates it to the `outlet`
     
 
-## How to execute?
+# Important Note
 
-- Open up a terminal :
-- Install dependencies: `npm install`
-- To run test cases : `npm test`
-- To try out with example input : `npm start`
+- I have not created multiple outlets to make multiple beverages in parallel
+    - For a coffee machine, we can create multiple objects of `Outlet`, defined by the value of `N` in the input.
+    - We can rotate those outlets in round robin fashion to serve requests in parallel
+    - **Reason I skipped on creating multiple outlets is (i.e. consuming `N` value from input):
+        - Since Javascript has single run(main) thread. There are mainly two ways to achieve parallelism:
+            - Running application in `cluster` mode and create multiple worker processes. Each `Outlet` will be a single worker process. And then redirect separate requests to separate outlets. 
+            - Create an `Outlet` array in `CoffeeMachine` and keep serving multiple requests with `Promise.all()` with few checks and rotations. 
+        - Locking Mechanism needs to be implemented in creating a beverage, especially when checking if ingredients are sufficient and actually fetching them by reducing their quantity in `IngredientInventory`. That operation needs to be atomic.
+        - We need to use redis or other memory store to keeps centralized locking among all the outlets.**
 
 
-## Sample input
+# Sample input
 
 ```
 {

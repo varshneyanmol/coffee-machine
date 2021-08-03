@@ -11,7 +11,13 @@ class Outlet {
         this.#beverageCompositionValidator  = beverageCompositionValidator;
     }
 
-
+    /**
+     * In case of multiple outlets making beverages parallely,
+     * we need to run this function atomically by implementing some wort of Locking Mechanism.
+     * @param beverageName
+     * @param compositionInput
+     * @returns {string}
+     */
     make(beverageName, compositionInput) {
         const BeverageType = BeverageFactory.beverageNameToClassMap[beverageName];
         let composition = CompositionService.createComposition(compositionInput);

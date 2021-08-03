@@ -1,3 +1,6 @@
+/**
+ * NOTE: Code Architecture is explained in the README.md file
+ */
 const {input} = require('./tests/testCases/test1');
 const CoffeeMachine = require('./controllers/CoffeeMachine');
 
