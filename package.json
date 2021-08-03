@@ -1,0 +1,16 @@
+{
+  "name": "coffeemachine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest"
+  },
+  "author": "Anmol Varshney",
+  "license": "ISC",
+  "dependencies": {
+    "@jest/globals": "^27.0.6",
+    "jest": "^27.0.6"
+  }
+}
